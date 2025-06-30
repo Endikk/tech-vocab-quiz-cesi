@@ -4,7 +4,7 @@ Une application web moderne et interactive pour l'entraînement au vocabulaire a
 
 ## 🌐 Application en ligne
 
-🚀 **Accès direct :** [Quiz en ligne](https://[votre-nom-utilisateur].github.io/tech-vocab-quiz-cesi/)
+🚀 **Accès direct :** [Quiz en ligne](https://endikk.github.io/tech-vocab-quiz-cesi/)
 
 L'application est hébergée gratuitement sur GitHub Pages et accessible depuis n'importe quel appareil avec un navigateur web.
 
