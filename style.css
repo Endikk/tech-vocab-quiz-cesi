@@ -60,6 +60,53 @@ body {
     font-weight: 500;
 }
 
+/* Footer */
+.footer {
+    margin-top: 30px;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.author-credit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    opacity: 0.7;
+}
+
+.avatar-link {
+    display: inline-block;
+    text-decoration: none;
+    border-radius: 50%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.avatar-link:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.author-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: border-color 0.2s ease;
+    display: block;
+}
+
+.avatar-link:hover .author-avatar {
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.author-text {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
 /* Main Content */
 .main-content {
     background: var(--card-background);
