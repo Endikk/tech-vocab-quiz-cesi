@@ -37,19 +37,24 @@ class VocabularyTrainer:
         mode_frame.grid(row=1, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 20))
         
         ttk.Radiobutton(mode_frame, text="Mots métier (50)", variable=self.current_mode, 
-                       value="mots").grid(row=0, column=0, sticky=tk.W, padx=(0, 20))
+                       value="mots", command=self.on_mode_change).grid(row=0, column=0, sticky=tk.W, padx=(0, 20))
         ttk.Radiobutton(mode_frame, text="Expressions (50)", variable=self.current_mode, 
-                       value="expressions").grid(row=0, column=1, sticky=tk.W, padx=(0, 20))
+                       value="expressions", command=self.on_mode_change).grid(row=0, column=1, sticky=tk.W, padx=(0, 20))
         ttk.Radiobutton(mode_frame, text="Définitions (25)", variable=self.current_mode, 
-                       value="definitions").grid(row=0, column=2, sticky=tk.W)
+                       value="definitions", command=self.on_mode_change).grid(row=0, column=2, sticky=tk.W)
         
         # Boutons de contrôle
         control_frame = ttk.Frame(main_frame)
         control_frame.grid(row=2, column=0, columnspan=2, pady=(0, 20))
         
-        ttk.Button(control_frame, text="Commencer", command=self.start_quiz).grid(row=0, column=0, padx=(0, 10))
-        ttk.Button(control_frame, text="Question suivante", command=self.next_question).grid(row=0, column=1, padx=(0, 10))
-        ttk.Button(control_frame, text="Résultats", command=self.show_results).grid(row=0, column=2)
+        self.start_button = ttk.Button(control_frame, text="Commencer", command=self.start_quiz)
+        self.start_button.grid(row=0, column=0, padx=(0, 10))
+        
+        self.stop_button = ttk.Button(control_frame, text="Arrêter", command=self.stop_quiz, state="disabled")
+        self.stop_button.grid(row=0, column=1, padx=(0, 10))
+        
+        ttk.Button(control_frame, text="Question suivante", command=self.next_question).grid(row=0, column=2, padx=(0, 10))
+        ttk.Button(control_frame, text="Résultats", command=self.show_results).grid(row=0, column=3)
         
         # Zone de question
         self.question_frame = ttk.LabelFrame(main_frame, text="Question", padding="15")
@@ -91,11 +96,19 @@ class VocabularyTrainer:
         main_frame.columnconfigure(0, weight=1)
         main_frame.rowconfigure(3, weight=1)
         
+        # Associer la touche Entrée à la fonction "Question suivante"
+        self.root.bind('<Return>', lambda event: self.next_question())
+        self.root.focus_set()  # Assurer que la fenêtre peut recevoir les événements clavier
+        
     def start_quiz(self):
         mode = self.current_mode.get()
         self.current_question = 0
         self.score = 0
         self.user_answers = []
+        
+        # Désactiver le bouton "Commencer" et activer le bouton "Arrêter"
+        self.start_button.config(state="disabled")
+        self.stop_button.config(state="normal")
         
         # Générer les questions selon le mode
         if mode == "mots":
@@ -308,9 +321,44 @@ D: 0-39%"""
         ttk.Button(button_frame, text="Fermer", 
                   command=result_window.destroy).pack(side=tk.LEFT)
     
+    def stop_quiz(self):
+        """Arrête le quiz en cours et remet à zéro l'interface"""
+        self.current_question = 0
+        self.score = 0
+        self.total_questions = 0
+        self.questions = []
+        self.user_answers = []
+        
+        # Réactiver le bouton "Commencer" et désactiver le bouton "Arrêter"
+        self.start_button.config(state="normal")
+        self.stop_button.config(state="disabled")
+        
+        # Remettre l'interface à zéro
+        self.question_label.config(text="Cliquez sur 'Commencer' pour débuter")
+        
+        # Vider les boutons de réponse et réinitialiser les indicateurs
+        for btn in self.answer_buttons:
+            btn.config(text="")
+        for indicator in self.answer_indicators:
+            indicator.config(bg="white", text="   ")
+        
+        self.answer_var.set("")
+        self.update_score_display()
+        self.progress_label.config(text="Question: 0/0")
+    
+    def on_mode_change(self):
+        """Appelée quand l'utilisateur change de mode de quiz"""
+        # Si un quiz est en cours, l'arrêter
+        if hasattr(self, 'questions') and self.questions:
+            self.stop_quiz()
+    
     def show_final_results(self):
         self.show_results()
         self.question_label.config(text="Quiz terminé ! Consultez vos résultats avec le bouton 'Résultats'.")
+        
+        # Réactiver le bouton "Commencer" et désactiver le bouton "Arrêter"
+        self.start_button.config(state="normal")
+        self.stop_button.config(state="disabled")
         
         # Désactiver les boutons de réponse et réinitialiser les indicateurs
         for btn in self.answer_buttons:
