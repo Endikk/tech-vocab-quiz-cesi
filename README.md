@@ -57,7 +57,7 @@ Cette application de quiz permet aux étudiants MAALSI (Manager en Architecture 
 
 2. **Naviguer vers le dossier du projet**
    ```bash
-   cd "g:\Cours CESI\MAALSI\TEST"
+   cd "C:\CoursCESI\MAALSI\tech-vocab-quiz-cesi"
    ```
 
 3. **Vérifier Python**
