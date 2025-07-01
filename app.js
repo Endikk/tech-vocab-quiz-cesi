@@ -39,6 +39,42 @@ class VocabularyTrainer {
                     this.nextQuestion();
                 }
             }
+            
+            // Answer selection with number keys (1, 2, 3, 4) from main keyboard row
+            if (document.getElementById('quizSection').style.display === 'block') {
+                let answerIndex = -1;
+                
+                // Only use main keyboard number keys, not numpad
+                if (!e.location || e.location === KeyboardEvent.DOM_KEY_LOCATION_STANDARD) {
+                    switch (e.key) {
+                        case '1':
+                        case '&':
+                            answerIndex = 0;
+                            break;
+                        case '2':
+                        case 'é':
+                            answerIndex = 1;
+                            break;
+                        case '3':
+                        case '"':
+                            answerIndex = 2;
+                            break;
+                        case '4':
+                        case "'":
+                            answerIndex = 3;
+                            break;
+                    }
+                    
+                    if (answerIndex >= 0) {
+                        e.preventDefault(); // Prevent any default behavior
+                        const answerOptions = document.querySelectorAll('.answer-option');
+                        if (answerOptions[answerIndex]) {
+                            // Simulate click on the answer option
+                            answerOptions[answerIndex].click();
+                        }
+                    }
+                }
+            }
         });
 
         // Modal close on background click
