@@ -256,7 +256,7 @@ class VocabularyTrainer {
         setTimeout(() => {
             this.currentQuestion++;
             this.showQuestion();
-        }, 1500);
+        }, 500);
     }
 
     showAnswerFeedback(isCorrect, correctAnswer) {
