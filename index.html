@@ -1,162 +1,274 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Entraînement Vocabulaire Anglais - Manager SI</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
     <div class="container">
-        <header class="header">
-            <h1><i class="fas fa-graduation-cap"></i> Entraînement Vocabulaire Anglais</h1>
-            <p class="subtitle">Manager SI - CESI</p>
-        </header>
+      <header class="header">
+        <h1>
+          <i class="fas fa-graduation-cap"></i> Entraînement Vocabulaire Anglais
+        </h1>
+        <p class="subtitle">Manager SI - CESI</p>
+      </header>
 
-        <main class="main-content">
-            <!-- Section sélection du mode -->
-            <section class="mode-selection" id="modeSelection">
-                <h2>Type de questions</h2>
-                <div class="mode-grid">
-                    <div class="mode-card" data-mode="mots">
-                        <div class="mode-icon">
-                            <i class="fas fa-spell-check"></i>
-                        </div>
-                        <h3>Mots métier</h3>
-                        <p>50 termes techniques essentiels</p>
-                        <p><strong>Niveau débutant</strong></p>
-                        <span class="mode-count">50 questions</span>
-                    </div>
-                    <div class="mode-card" data-mode="expressions">
-                        <div class="mode-icon">
-                            <i class="fas fa-comments"></i>
-                        </div>
-                        <h3>Expressions</h3>
-                        <p>Phrases et expressions professionnelles</p>
-                        <p><strong>Niveau intermédiaire</strong></p>
-                        <span class="mode-count">50 questions</span>
-                    </div>
-                    <div class="mode-card" data-mode="definitions">
-                        <div class="mode-icon">
-                            <i class="fas fa-book"></i>
-                        </div>
-                        <h3>Définitions</h3>
-                        <p>Concepts techniques avancés</p>
-                        <p><strong>Niveau expert</strong></p>
-                        <span class="mode-count">25 questions</span>
-                    </div>
-                </div>
-                
-                <div class="controls">
-                    <button id="startBtn" class="btn btn-primary" disabled>
-                        <i class="fas fa-play"></i> Commencer
-                    </button>
-                </div>
-            </section>
-
-            <!-- Section quiz -->
-            <section class="quiz-section" id="quizSection" style="display: none;">
-                <div class="quiz-header">
-                    <div class="progress-container">
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="progressFill"></div>
-                        </div>
-                        <span class="progress-text" id="progressText">Question 1/50</span>
-                    </div>
-                    <div class="score-container">
-                        <span class="score" id="scoreText">Score: 0/0</span>
-                        <button id="stopBtn" class="btn btn-secondary">
-                            <i class="fas fa-stop"></i> Arrêter
-                        </button>
-                    </div>
-                </div>
-
-                <div class="question-container">
-                    <div class="question-card">
-                        <h3 class="question-text" id="questionText">Question apparaîtra ici</h3>
-                        <div class="answers-grid" id="answersGrid">
-                            <!-- Les réponses seront générées dynamiquement -->
-                        </div>
-                        <div class="question-actions">
-                            <button id="nextBtn" class="btn btn-primary" disabled>
-                                <i class="fas fa-arrow-right"></i> Question suivante
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Section résultats -->
-            <section class="results-section" id="resultsSection" style="display: none;">
-                <div class="results-card">
-                    <div class="results-header">
-                        <i class="fas fa-chart-line"></i>
-                        <h2>Résultats du Quiz</h2>
-                    </div>
-                    
-                    <div class="results-stats">
-                        <div class="stat-item">
-                            <div class="stat-value" id="finalScore">0/0</div>
-                            <div class="stat-label">Score final</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value" id="finalPercentage">0%</div>
-                            <div class="stat-label">Pourcentage</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value grade" id="finalGrade">-</div>
-                            <div class="stat-label">Note</div>
-                        </div>
-                    </div>
-
-                    <div class="grade-scale">
-                        <h4>Barème de notation:</h4>
-                        <div class="grade-item grade-a">A: 75-100%</div>
-                        <div class="grade-item grade-b">B: 60-74%</div>
-                        <div class="grade-item grade-c">C: 40-59%</div>
-                        <div class="grade-item grade-d">D: 0-39%</div>
-                    </div>
-
-                    <div class="results-actions">
-                        <button id="viewErrorsBtn" class="btn btn-secondary" style="display: none;">
-                            <i class="fas fa-eye"></i> Voir les erreurs
-                        </button>
-                        <button id="restartBtn" class="btn btn-primary">
-                            <i class="fas fa-redo"></i> Recommencer
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Modal des erreurs -->
-            <div class="modal" id="errorsModal" style="display: none;">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3><i class="fas fa-exclamation-triangle"></i> Analyse de vos erreurs</h3>
-                        <button class="modal-close" id="closeErrorsModal">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="errorsContent">
-                        <!-- Contenu des erreurs généré dynamiquement -->
-                    </div>
-                </div>
+      <main class="main-content">
+        <!-- Section sélection du mode -->
+        <section class="mode-selection" id="modeSelection">
+          <h2>Type de questions</h2>
+          <div class="mode-grid">
+            <div class="mode-card" data-mode="mots">
+              <div class="mode-icon">
+                <i class="fas fa-spell-check"></i>
+              </div>
+              <h3>Mots métier</h3>
+              <p>50 termes techniques essentiels</p>
+              <p><strong>Niveau débutant</strong></p>
+              <span class="mode-count">50 questions</span>
             </div>
-        </main>
-        
-        <footer class="footer">
-            <div class="author-credit">
-                <a href="https://github.com/Endikk/tech-vocab-quiz-cesi" target="_blank" rel="noopener noreferrer" class="avatar-link">
-                    <img src="avatar.png" alt="Lucas Labonde" class="author-avatar">
-                </a>
-                <span class="author-text">by Lucas Labonde</span>
+            <div class="mode-card" data-mode="expressions">
+              <div class="mode-icon">
+                <i class="fas fa-comments"></i>
+              </div>
+              <h3>Expressions</h3>
+              <p>Phrases et expressions professionnelles</p>
+              <p><strong>Niveau intermédiaire</strong></p>
+              <span class="mode-count">50 questions</span>
             </div>
-        </footer>
+            <div class="mode-card" data-mode="definitions">
+              <div class="mode-icon">
+                <i class="fas fa-book"></i>
+              </div>
+              <h3>Définitions</h3>
+              <p>Concepts techniques avancés</p>
+              <p><strong>Niveau expert</strong></p>
+              <span class="mode-count">25 questions</span>
+            </div>
+            <div class="mode-card" data-mode="cartes">
+              <div class="mode-icon">
+                <i class="fas fa-clone"></i>
+              </div>
+              <h3>Cartes Métiers (saisie)</h3>
+              <p>Entraînement par saisie, recto-verso</p>
+              <p><strong>Mode actif : mots métiers</strong></p>
+              <span class="mode-count">50 cartes</span>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button id="startBtn" class="btn btn-primary" disabled>
+              <i class="fas fa-play"></i> Commencer
+            </button>
+          </div>
+        </section>
+
+        <!-- Section quiz -->
+        <section class="quiz-section" id="quizSection" style="display: none">
+          <div class="quiz-header">
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+              </div>
+              <span class="progress-text" id="progressText">Question 1/50</span>
+            </div>
+            <div class="score-container">
+              <span class="score" id="scoreText">Score: 0/0</span>
+              <button id="stopBtn" class="btn btn-secondary">
+                <i class="fas fa-stop"></i> Arrêter
+              </button>
+            </div>
+          </div>
+
+          <div class="question-container">
+            <div class="question-card">
+              <h3 class="question-text" id="questionText">
+                Question apparaîtra ici
+              </h3>
+              <div class="answers-grid" id="answersGrid">
+                <!-- Les réponses seront générées dynamiquement -->
+              </div>
+              <div class="question-actions">
+                <button id="nextBtn" class="btn btn-primary" disabled>
+                  <i class="fas fa-arrow-right"></i> Question suivante
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section résultats -->
+        <section
+          class="results-section"
+          id="resultsSection"
+          style="display: none"
+        >
+          <div class="results-card">
+            <div class="results-header">
+              <i class="fas fa-chart-line"></i>
+              <h2>Résultats du Quiz</h2>
+            </div>
+
+            <div class="results-stats">
+              <div class="stat-item">
+                <div class="stat-value" id="finalScore">0/0</div>
+                <div class="stat-label">Score final</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value" id="finalPercentage">0%</div>
+                <div class="stat-label">Pourcentage</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value grade" id="finalGrade">-</div>
+                <div class="stat-label">Note</div>
+              </div>
+            </div>
+
+            <div class="grade-scale">
+              <h4>Barème de notation:</h4>
+              <div class="grade-item grade-a">A: 75-100%</div>
+              <div class="grade-item grade-b">B: 60-74%</div>
+              <div class="grade-item grade-c">C: 40-59%</div>
+              <div class="grade-item grade-d">D: 0-39%</div>
+            </div>
+
+            <div class="results-actions">
+              <button
+                id="viewErrorsBtn"
+                class="btn btn-secondary"
+                style="display: none"
+              >
+                <i class="fas fa-eye"></i> Voir les erreurs
+              </button>
+              <button id="restartBtn" class="btn btn-primary">
+                <i class="fas fa-redo"></i> Recommencer
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Modal des erreurs -->
+        <div class="modal" id="errorsModal" style="display: none">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3>
+                <i class="fas fa-exclamation-triangle"></i> Analyse de vos
+                erreurs
+              </h3>
+              <button class="modal-close" id="closeErrorsModal">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+            <div class="modal-body" id="errorsContent">
+              <!-- Contenu des erreurs généré dynamiquement -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Modale choix de langue pour le mode cartes -->
+        <div class="modal" id="langModal" style="display: none">
+          <div class="modal-content" style="max-width: 400px">
+            <div class="modal-header">
+              <h3>
+                <i class="fas fa-language"></i> Choisissez la langue de départ
+              </h3>
+            </div>
+            <div class="modal-body" style="text-align: center">
+              <button class="btn btn-primary" id="langFrBtn">
+                Français → Anglais
+              </button>
+              <button class="btn btn-primary" id="langEnBtn">
+                Anglais → Français
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section mode carte -->
+        <section class="card-section" id="cardSection" style="display: none">
+          <div class="quiz-header">
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill" id="cardProgressFill"></div>
+              </div>
+              <span class="progress-text" id="cardProgressText"
+                >Carte 1/50</span
+              >
+            </div>
+            <div class="score-container">
+              <span class="score" id="cardScoreText">Score: 0/0</span>
+              <button id="cardStopBtn" class="btn btn-secondary">
+                <i class="fas fa-stop"></i> Arrêter
+              </button>
+            </div>
+          </div>
+          <div class="card-container">
+            <div class="flip-card" id="flipCard">
+              <div class="flip-card-inner" id="flipCardInner">
+                <div class="flip-card-front" id="cardFront">
+                  <span id="cardWord">Mot</span>
+                </div>
+                <div class="flip-card-back" id="cardBack">
+                  <span id="cardSolution">Traduction</span>
+                </div>
+              </div>
+            </div>
+            <form id="cardInputForm" autocomplete="off">
+              <input
+                type="text"
+                id="cardInput"
+                placeholder="Votre traduction..."
+                autocomplete="off"
+                required
+              />
+              <button
+                type="submit"
+                class="btn btn-primary"
+                id="cardValidateBtn"
+              >
+                Valider
+              </button>
+            </form>
+            <div id="cardFeedback" class="card-feedback"></div>
+            <div class="question-actions">
+              <button
+                id="cardNextBtn"
+                class="btn btn-primary"
+                style="display: none"
+              >
+                <i class="fas fa-arrow-right"></i> Carte suivante
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="author-credit">
+          <a
+            href="https://github.com/Endikk/tech-vocab-quiz-cesi"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="avatar-link"
+          >
+            <img src="avatar.png" alt="Lucas Labonde" class="author-avatar" />
+          </a>
+          <span class="author-text">by Lucas Labonde</span>
+        </div>
+      </footer>
     </div>
 
     <script src="vocabulary_data.js"></script>
     <script src="app.js"></script>
-</body>
+  </body>
 </html>
