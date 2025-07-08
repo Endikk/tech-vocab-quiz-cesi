@@ -553,8 +553,10 @@ class VocabularyTrainer {
     document.getElementById("cardValidateBtn").disabled = false;
     document.getElementById("cardFeedback").textContent = "";
     document.getElementById("cardNextBtn").style.display = "none";
-    // Remet la carte côté front
-    document.getElementById("flipCardInner").classList.remove("flipped");
+    const flipCardInner = document.getElementById("flipCardInner");
+    flipCardInner.classList.remove("flipped");
+    // On force le reflow pour éviter tout effet de transition à l'affichage initial
+    void flipCardInner.offsetWidth;
     document.getElementById("cardInput").focus();
   }
 
