@@ -189,19 +189,42 @@ class VocabularyTrainer {
     this.updateDisplay();
   }
 
+  buildChoices(correct, curated, fallbackPool) {
+    const distractors = [];
+    const seen = new Set([correct]);
+
+    const curatedShuffled = [...(curated || [])];
+    this.shuffleArray(curatedShuffled);
+    for (const d of curatedShuffled) {
+      if (distractors.length >= 3) break;
+      if (!seen.has(d)) {
+        distractors.push(d);
+        seen.add(d);
+      }
+    }
+
+    if (distractors.length < 3) {
+      const fallback = fallbackPool.filter((d) => !seen.has(d));
+      this.shuffleArray(fallback);
+      for (const d of fallback) {
+        if (distractors.length >= 3) break;
+        distractors.push(d);
+        seen.add(d);
+      }
+    }
+
+    const choices = [correct, ...distractors];
+    this.shuffleArray(choices);
+    return choices;
+  }
+
   generateWordQuestions() {
     const questions = [];
     const vocabList = this.vocabularyData.mots;
+    const allEnglish = vocabList.map(([, english]) => english);
 
-    vocabList.forEach(([french, correctEnglish]) => {
-      // Create distractors
-      const distractors = vocabList
-        .filter(([, english]) => english !== correctEnglish)
-        .map(([, english]) => english);
-
-      this.shuffleArray(distractors);
-      const choices = [correctEnglish, ...distractors.slice(0, 3)];
-      this.shuffleArray(choices);
+    vocabList.forEach(([french, correctEnglish, curated]) => {
+      const choices = this.buildChoices(correctEnglish, curated, allEnglish);
 
       questions.push({
         question: `Comment dit-on "${french}" en anglais ?`,
@@ -216,16 +239,10 @@ class VocabularyTrainer {
   generateExpressionQuestions() {
     const questions = [];
     const exprList = this.vocabularyData.expressions;
+    const allEnglish = exprList.map(([, english]) => english);
 
-    exprList.forEach(([french, correctEnglish]) => {
-      // Create distractors
-      const distractors = exprList
-        .filter(([, english]) => english !== correctEnglish)
-        .map(([, english]) => english);
-
-      this.shuffleArray(distractors);
-      const choices = [correctEnglish, ...distractors.slice(0, 3)];
-      this.shuffleArray(choices);
+    exprList.forEach(([french, correctEnglish, curated]) => {
+      const choices = this.buildChoices(correctEnglish, curated, allEnglish);
 
       questions.push({
         question: `Comment dit-on "${french}" en anglais ?`,
@@ -240,14 +257,10 @@ class VocabularyTrainer {
   generateDefinitionQuestions() {
     const questions = [];
     const defList = this.vocabularyData.definitions;
+    const allTerms = defList.map(([t]) => t);
 
-    defList.forEach(([term, definition]) => {
-      // Create distractors
-      const distractors = defList.filter(([t]) => t !== term).map(([t]) => t);
-
-      this.shuffleArray(distractors);
-      const choices = [term, ...distractors.slice(0, 3)];
-      this.shuffleArray(choices);
+    defList.forEach(([term, definition, curated]) => {
+      const choices = this.buildChoices(term, curated, allTerms);
 
       questions.push({
         question: `Quel terme correspond à cette définition ?\n\n${definition}`,
