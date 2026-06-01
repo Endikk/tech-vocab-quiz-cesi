@@ -227,6 +227,10 @@ const VOCABULARY_DATA = {
       "Gérer les modifications apportées au code source",
       "Manage changes to source code",
     ],
+    [
+      "Déployer le logiciel sur un serveur d'applications",
+      "Deploy the software to an application server",
+    ],
   ],
   definitions: [
     [
